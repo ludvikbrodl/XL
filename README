@@ -1,3 +1,7 @@
+Jag har tänkt att vi kanske kan testa greenUML? 
+Det är otroligt mycket pill-jobb att generara klasser och metoder etc 2 gånger när man redan har det färdigt i ett UML diagram som dessutom kan autogenerera kod?
+Vad tyckern ni?
+
 Glï¿½m inte att ALLTID gï¿½ra 'git pull origin master' innan ni bï¿½rjar koda, det blir jï¿½vla massa klydd annars och man 
 mï¿½ste anvï¿½nda --force kommandot vilket kan innebï¿½r att man skriver ï¿½ver => annan kod fï¿½rsvinner
- trots att det kanske inte var meningen. ef
+ trots att det kanske inte var meningen.
