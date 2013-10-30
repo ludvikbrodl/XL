@@ -1,5 +1,24 @@
-Jag har t�nkt att vi kanske kan testa greenUML? 
-Det �r otroligt mycket pill-jobb att generara klasser och metoder etc 2 g�nger n�r man redan har det f�rdigt i ett UML diagram som dessutom kan autogenerera kod?
+Ideas:
+
+Gör slot till ett interface: public double value(Environment env);
+        public String diplayValue(Environment env);
+        public String toString();
+        
+därefter gör vi olika slots, exempelvis ExprSlot, TextSlot. 
+
+Göra en factory för att skapa slots, vi har redan en ExprParser i expr paketet, skickar vi med den och strängen 
+till factoryen kan den avgöra om ett expr, error eller en kommentar ska skappas?
+
+För att lösa det med currentSlot skulle man kunna ha en klass som implements Slot som har ett attribut som är det nuvarande slotet som skall editeras? 
+och som ändras allt eftersom GUI:n (observable) ger notify observers(CurrentSlot)
+
+
+
+
+
+
+Jag har t�nkt att vi kanske kan testa greenUML? 
+Det �r otroligt mycket pill-jobb att generara klasser och metoder etc 2 g�nger n�r man redan har det f�rdigt i ett UML diagram som dessutom kan autogenerera kod?
 Vad tyckern ni?
 
 Gl�m inte att ALLTID g�ra 'git pull origin master' innan ni b�rjar koda, det blir j�vla massa klydd annars och man 
