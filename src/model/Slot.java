@@ -1,9 +1,12 @@
 package model;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import expr.Expr;
 import expr.Environment;
 
-public class Slot {
+public class Slot extends Observable implements Observer {
 	private Expr expr;
 	
 	public Slot(Expr expr) {
@@ -14,6 +17,11 @@ public class Slot {
 	}
 	public Expr getExpr() {
 		return expr;
+	}
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
