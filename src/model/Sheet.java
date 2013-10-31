@@ -8,13 +8,14 @@ import expr.Expr;
 
 public class Sheet implements Environment {
 	private Map<String, Slot> map;
+	private static SlotFactory slotFactory = new SlotFactory();
 
 	public Sheet() {
 		map = new HashMap<String, Slot>();
 	}
 
-	public void add(String key, ExprSlot value) {
-		map.put(key, value);
+	public void add(String key, String text) {
+		map.put(key, slotFactory.createSlot(text));
 	}
 
 	@Override
