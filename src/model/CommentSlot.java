@@ -3,10 +3,10 @@ package model;
 import java.util.Observable;
 import expr.Environment;
 
-public class SlotComment implements Slot {
+public class CommentSlot implements Slot {
 	public String comment;
 	
-	public SlotComment(String comment) {
+	public CommentSlot(String comment) {
 		this.comment = comment;
 	}
 

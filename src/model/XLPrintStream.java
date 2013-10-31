@@ -12,8 +12,8 @@ public class XLPrintStream extends PrintStream {
     }
 
     // TODO Change Object to something appropriate
-    public void save(Set<Entry<String, SlotComment>> set) {
-        for (Entry<String, SlotComment> entry : set) {
+    public void save(Set<Entry<String, Slot>> set) {
+        for (Entry<String, Slot> entry : set) {
             print(entry.getKey());
             print('=');
             println(entry.getValue());
