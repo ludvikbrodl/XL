@@ -1,2 +1,6 @@
 /gui
-/model
+/
+/expr/
+/gui/
+/model/
+/util/
