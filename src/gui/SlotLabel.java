@@ -7,16 +7,23 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class SlotLabel extends ColoredLabel implements MouseListener{
-    public SlotLabel() {
+	private CurrentSlot currentSlot;
+	private String address;
+	
+    public SlotLabel(CurrentSlot currentSlot, String address) {
         super("                    ", Color.WHITE, RIGHT);
+        this.currentSlot = currentSlot;
+        this.address = address;
         addMouseListener(this);
     }
 
+    public String getAddress() {
+    	return address;
+    }
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		System.out.println("Hey, Listen!");
-		
+		currentSlot.updateCurrent(this);
 	}
 
 	@Override

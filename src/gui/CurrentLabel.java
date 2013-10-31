@@ -5,13 +5,17 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class CurrentLabel extends ColoredLabel implements Observer{
-    public CurrentLabel() {
+	private CurrentSlot currentSlot;
+	
+    public CurrentLabel(CurrentSlot currentSlot) {
         super("A1", Color.WHITE);
+        this.currentSlot = currentSlot;
+        currentSlot.addObserver(this);
     }
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		
+		if(arg0 instanceof CurrentSlot)
+			setText(currentSlot.getAdress());
 	}
 }
