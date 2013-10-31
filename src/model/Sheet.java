@@ -6,18 +6,19 @@ import java.util.Map;
 import expr.Environment;
 import expr.Expr;
 
-public class Sheet {
-	private Map<String,Slot> map;
-	
+public class Sheet implements Environment {
+	private Map<String, Slot> map;
+
 	public Sheet() {
-		map = new HashMap<String,Slot>();
+		map = new HashMap<String, Slot>();
 	}
-	
-	public Expr getValue(String key) {
-		return map.get(key).getExpr();
-	}
-	
-	public void add(String key, Slot value) {
+
+	public void add(String key, ExprSlot value) {
 		map.put(key, value);
+	}
+
+	@Override
+	public double value(String name) {
+		return map.get(name).value(this);
 	}
 }
