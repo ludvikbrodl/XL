@@ -5,7 +5,7 @@ import java.util.Observable;
 import util.XLException;
 import expr.Environment;
 
-public class BlankSlot implements Slot {
+public class BoomSlot implements Slot {
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
@@ -14,7 +14,7 @@ public class BlankSlot implements Slot {
 
 	@Override
 	public double value(Environment env) throws XLException {
-		throw new XLException("Blank slot no acceptable");
+		throw new XLException("Kaboom");
 	}
 
 	@Override

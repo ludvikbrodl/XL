@@ -12,12 +12,7 @@ public class ExprSlot extends Observable implements Slot {
 	public ExprSlot(Expr expr) {
 		this.expr = expr;
 	}
-	public double getValue(Environment enviroment) {
-		return expr.value(enviroment);
-	}
-	public Expr getExpr() {
-		return expr;
-	}
+
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
@@ -25,13 +20,11 @@ public class ExprSlot extends Observable implements Slot {
 	}
 	@Override
 	public double value(Environment env) {
-		// TODO Auto-generated method stub
-		return 0;
+		return expr.value(env);
 	}
 	@Override
 	public String diplayValue(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return expr.toString();
 	}
 	
 }

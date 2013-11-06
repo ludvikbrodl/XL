@@ -12,7 +12,6 @@ public class CommentSlot implements Slot {
 
 	@Override
 	public double value(Environment env) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 	@Override
@@ -22,8 +21,7 @@ public class CommentSlot implements Slot {
 	}
 	@Override
 	public String diplayValue(Environment env) {
-		// TODO Auto-generated method stub
-		return null;
+		return comment;
 	}
 
 }
