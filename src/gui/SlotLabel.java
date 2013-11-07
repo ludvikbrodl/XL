@@ -1,13 +1,12 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("serial")
 public class SlotLabel extends ColoredLabel implements MouseListener, Observer{
 	private CurrentSlot currentSlot;
 	private String address;

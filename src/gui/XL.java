@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 
 import model.Sheet;
 
+@SuppressWarnings("serial")
 public class XL extends JFrame implements Printable {
     private static final int ROWS = 10, COLUMNS = 8;
     private XLCounter counter;

@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.util.Observable;
 
 public class CurrentSlot extends Observable {

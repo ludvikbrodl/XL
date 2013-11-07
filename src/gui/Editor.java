@@ -9,8 +9,8 @@ import javax.swing.JTextField;
 import util.XLException;
 import model.Sheet;
 
+@SuppressWarnings("serial")
 public class Editor extends JTextField implements KeyListener {
-	private static final long serialVersionUID = 1L;
 	private Sheet sheet;
 	private CurrentSlot currentSlot;
 	private StatusLabel statusLabel;
