@@ -3,43 +3,48 @@ package gui;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
 import javax.swing.JTextField;
 
+import util.XLException;
 import model.Sheet;
 
-public class Editor extends JTextField {
+public class Editor extends JTextField implements KeyListener {
+	private static final long serialVersionUID = 1L;
 	private Sheet sheet;
 	private CurrentSlot currentSlot;
-	
-    public Editor(Sheet sheet, CurrentSlot currentSlot) {
-    	this.sheet = sheet;
-    	this.currentSlot = currentSlot;
-    	
-        setBackground(Color.WHITE);
-        addKeyListener(new KeyboardListener());
-    }
-    
-    private static class KeyboardListener implements KeyListener {
-    	
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getKeyCode() == 10) //Enter
-				System.out.println(e.getKeyCode());
-		}
+	private StatusLabel statusLabel;
 
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
+	public Editor(Sheet sheet, CurrentSlot currentSlot, StatusLabel statusLabel) {
+		this.sheet = sheet;
+		this.currentSlot = currentSlot;
+		this.statusLabel = statusLabel;
+		setBackground(Color.WHITE);
+		addKeyListener(this);
+	}
 
-		@Override
-		public void keyTyped(KeyEvent e) {
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+			try {
+				sheet.add(currentSlot.getAdress(), getText());
+			} catch (XLException e) {
+				statusLabel.updateStatus(e.getMessage());
+			}
 
 		}
 
-		
-    	
-    	
-    }
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
 }
