@@ -3,8 +3,10 @@ package gui;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class SlotLabels extends GridPanel {
     private List<SlotLabel> labelList;
 

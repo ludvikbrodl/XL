@@ -8,7 +8,6 @@ import java.util.Map;
 import util.XLException;
 
 import expr.Environment;
-import expr.Expr;
 
 public class Sheet implements Environment {
 	private Map<String, Slot> map;

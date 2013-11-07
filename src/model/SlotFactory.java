@@ -19,9 +19,8 @@ public class SlotFactory {
 		else if (text.charAt(0) == '#') {
 			return new CommentSlot(text);
 		} else {
-			ExprParser xp = new ExprParser();
 			try {
-				return new ExprSlot(xp.build(text));
+				return new ExprSlot(exprParser.build(text));
 			} catch (IOException e) {
 				throw new XLException("Trailing garbabe in expression");
 			}

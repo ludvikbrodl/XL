@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Observer;
-
 import expr.Environment;
 
 public interface Slot {
