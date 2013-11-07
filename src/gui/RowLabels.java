@@ -3,6 +3,7 @@ package gui;
 import static java.awt.Color.LIGHT_GRAY;
 import static javax.swing.SwingConstants.RIGHT;
 
+@SuppressWarnings("serial")
 class RowLabels extends GridPanel {
     RowLabels(int rows) {
         super(rows + 1, 1);

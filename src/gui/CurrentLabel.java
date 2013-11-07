@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("serial")
 public class CurrentLabel extends ColoredLabel implements Observer{
 	private CurrentSlot currentSlot;
 	

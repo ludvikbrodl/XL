@@ -2,8 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class BorderPanel extends JPanel {
     protected BorderPanel() {
         super(new BorderLayout(2, 2));

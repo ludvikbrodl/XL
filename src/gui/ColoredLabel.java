@@ -1,9 +1,11 @@
 package gui;
 
 import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+@SuppressWarnings("serial")
 public class ColoredLabel extends JLabel {
     public ColoredLabel(String text) {
         this(text, Color.WHITE, SwingConstants.LEFT);

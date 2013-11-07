@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("serial")
 public class StatusLabel extends ColoredLabel implements Observer {
     public StatusLabel() {
         super("", Color.WHITE);
