@@ -10,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -68,6 +69,11 @@ public class XL extends JFrame implements Printable {
 
 	public void saveToFile(String path) throws FileNotFoundException {
 		sheet.saveSheetToFile(path);
+		
+	}
+
+	public void loadFromFile(String path) throws IOException {
+		sheet.loadSheetFromFile(path);
 		
 	}
 }
