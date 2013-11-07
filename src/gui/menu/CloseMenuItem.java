@@ -2,10 +2,13 @@ package gui.menu;
 
 import gui.XL;
 import gui.XLList;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JMenuItem;
 
+@SuppressWarnings("serial")
 class CloseMenuItem extends JMenuItem implements ActionListener {
     private XL xl;
     private XLList xlList;

@@ -2,15 +2,18 @@ package gui.menu;
 
 import gui.StatusLabel;
 import gui.XL;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+
 import javax.swing.JFileChooser;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+@SuppressWarnings("serial")
 public abstract class OpenMenuItem extends JMenuItem implements ActionListener {
     protected StatusLabel statusLabel;
     protected XL xl;

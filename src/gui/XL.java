@@ -76,4 +76,14 @@ public class XL extends JFrame implements Printable {
 		sheet.loadSheetFromFile(path);
 		
 	}
+
+	public void clearSelectedSlot() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void clearAllSlots() {
+		// TODO Auto-generated method stub
+		
+	}
 }
