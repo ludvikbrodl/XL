@@ -19,4 +19,8 @@ public class ExprSlot implements Slot {
 		return expr.toString();
 	}
 	
+	public String toString() {
+		return expr.toString();
+	}
+	
 }
