@@ -26,14 +26,18 @@ public class Sheet implements Environment {
 			newSlot.value(this);
 		} catch (XLException e) {
 			map.put(key, temp);
-			throw new XLException("Cirkul‰rt beroende introducerat");
+			throw e;
 		}
 		map.put(key, newSlot);
 	}
 
 	@Override
 	public double value(String name) {
-		return map.get(name).value(this);
+		try {
+			return map.get(name).value(this);
+		} catch (NullPointerException e) {
+			throw new XLException("Uttrycket refererar p√• en tom ruta (" + name + ")");
+		}
 	}
 
 	public void saveSheetToFile(String fileName) throws FileNotFoundException {
@@ -41,7 +45,7 @@ public class Sheet implements Environment {
 		stream.save(map.entrySet());
 		stream.close();
 	}
-	
+
 	public void loadSheetFromFile(String fileName) throws IOException {
 		XLBufferedReader reader = new XLBufferedReader(fileName);
 		reader.load(map);

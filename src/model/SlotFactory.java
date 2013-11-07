@@ -13,7 +13,10 @@ public class SlotFactory {
 	}
 	
 	public Slot createSlot(String text) throws XLException {
-		if (text.charAt(0) == '#') {
+		if (text.isEmpty()) {
+			throw new XLException("String is empty");
+		}
+		else if (text.charAt(0) == '#') {
 			return new CommentSlot(text);
 		} else {
 			ExprParser xp = new ExprParser();
