@@ -3,20 +3,21 @@ package gui;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JTextField;
 
 import util.XLException;
-import model.Sheet;
 
 @SuppressWarnings("serial")
-public class Editor extends JTextField implements KeyListener {
-	private Sheet sheet;
+public class Editor extends JTextField implements KeyListener, Observer {
+	private XL xl;
 	private CurrentSlot currentSlot;
 	private StatusLabel statusLabel;
 
-	public Editor(Sheet sheet, CurrentSlot currentSlot, StatusLabel statusLabel) {
-		this.sheet = sheet;
+	public Editor(XL xl, CurrentSlot currentSlot, StatusLabel statusLabel) {
+		this.xl = xl;
 		this.currentSlot = currentSlot;
 		this.statusLabel = statusLabel;
 		setBackground(Color.WHITE);
@@ -27,7 +28,8 @@ public class Editor extends JTextField implements KeyListener {
 	public void keyPressed(KeyEvent arg0) {
 		if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 			try {
-				sheet.add(currentSlot.getAdress(), getText());
+				xl.add(currentSlot.getAdress(), getText());
+				xl.updateGuiFromModelData();
 			} catch (XLException e) {
 				statusLabel.updateStatus(e.getMessage());
 			}
@@ -45,6 +47,11 @@ public class Editor extends JTextField implements KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		setText(xl.getStringOfAdress(currentSlot.getAdress()));
 	}
 
 }

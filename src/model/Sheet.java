@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import util.XLException;
-
 import expr.Environment;
 
 public class Sheet implements Environment {
@@ -30,12 +29,17 @@ public class Sheet implements Environment {
 		map.put(key, newSlot);
 	}
 
+	public void remove(String key) {
+		map.remove(key);
+	}
+
 	@Override
 	public double value(String name) {
 		try {
 			return map.get(name).value(this);
 		} catch (NullPointerException e) {
-			throw new XLException("Uttrycket refererar på en tom ruta (" + name + ")");
+			throw new XLException("Uttrycket refererar på en tom ruta (" + name
+					+ ")");
 		}
 	}
 
@@ -49,5 +53,13 @@ public class Sheet implements Environment {
 		XLBufferedReader reader = new XLBufferedReader(fileName);
 		reader.load(map);
 		reader.close();
+	}
+
+	public String toString(String adress) {
+		try {
+			return map.get(adress).toString();
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 }

@@ -29,4 +29,8 @@ public class SlotLabels extends GridPanel {
         currentSlot.updateCurrent(firstLabel);
         firstLabel.setBackground(Color.YELLOW);
     }
+    
+    public List<SlotLabel> getLabeList() {
+    	return labelList;
+    }
 }
