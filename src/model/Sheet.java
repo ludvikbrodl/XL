@@ -39,7 +39,7 @@ public class Sheet extends Observable implements Environment {
 		map.put(key, new BoomSlot());
 		try {
 			for (String keyString : map.keySet()){
-				if (key != keyString){
+				if (keyString != key){
 					map.get(keyString).value(this);
 				}
 			}

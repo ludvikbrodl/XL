@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import util.XLException;
@@ -87,20 +88,22 @@ public class XL extends JFrame implements Printable {
 		try {
 			for(String key: tempMap.keySet())
 				add(key, tempMap.get(key).toString());
-			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList())
-				slotLabel.update(sheet, null);
 		} catch (XLException exception) {
 			clearAllSlots();
-			statusLabel.setText("Filen innehåller fel");
+			JOptionPane.showMessageDialog(null, "Filen innehåller fel, avbröt innladdning", "Fel", JOptionPane.ERROR_MESSAGE);
 		}
+		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList())
+			slotLabel.update(sheet, null);
 	}
 
 	public void clearSelectedSlot() {
 		try {
 			sheet.remove(currentSlot.getAddress());
 			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-				if(slotLabel.getAddress() == currentSlot.getAddress())
+				if(slotLabel.getAddress() == currentSlot.getAddress()) {
 					sheet.deleteObserver(slotLabel);
+				}
+					
 			}
 		} catch (XLException e) {
 			statusLabel.setText(currentSlot.getAddress() + " referas till av en annan ruta! Ã„ndra den fÃ¶rst");

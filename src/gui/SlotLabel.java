@@ -14,29 +14,30 @@ import model.Sheet;
 public class SlotLabel extends ColoredLabel implements Observer {
 	private CurrentSlot currentSlot;
 	private String address;
-	
-    public SlotLabel(CurrentSlot currentSlot, String address) {
-        super("                    ", Color.WHITE, RIGHT);
-        this.currentSlot = currentSlot;
-        this.address = address;
-        addMouseListener(new ClickListener());
-    }
 
-    public String getAddress() {
-    	return address;
-    }
-    
-    @Override
+	public SlotLabel(CurrentSlot currentSlot, String address) {
+		super("                    ", Color.WHITE, RIGHT);
+		this.currentSlot = currentSlot;
+		this.address = address;
+		addMouseListener(new ClickListener());
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	@Override
 	public void update(Observable observable, Object arg) {
 		if(observable.getClass().equals(Sheet.class)) {
 			Sheet sheet = (Sheet) observable;
-			try {
-				if(sheet.isComment(address))
-					setText(sheet.toString(address).substring(1));
-				else
+			if(sheet.isComment(address))
+				setText(sheet.toString(address).substring(1));
+			else {
+				try {
 					setText(String.valueOf(sheet.value(address)));
-			} catch(XLException e) {
-				
+				} catch (XLException e) {
+					setText("");
+				}
 			}
 		}
 		if(currentSlot.getAddress().equals(address)) {
@@ -45,10 +46,10 @@ public class SlotLabel extends ColoredLabel implements Observer {
 			setBackground(Color.WHITE);
 			currentSlot.deleteObserver(this);
 		}
-			
+
 	}
-    
-    private class ClickListener implements MouseListener {
+
+	private class ClickListener implements MouseListener {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
@@ -66,5 +67,5 @@ public class SlotLabel extends ColoredLabel implements Observer {
 
 		@Override
 		public void mouseReleased(MouseEvent event) {}	
-    }
+	}
 }
