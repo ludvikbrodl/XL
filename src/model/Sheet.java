@@ -5,12 +5,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Observable;
 import java.util.Set;
 
 import util.XLException;
 import expr.Environment;
 
-public class Sheet implements Environment {
+public class Sheet extends Observable implements Environment {
 	private Map<String, Slot> map;
 	private static SlotFactory slotFactory = new SlotFactory();
 
@@ -29,6 +30,8 @@ public class Sheet implements Environment {
 			throw e;
 		}
 		map.put(key, newSlot);
+		setChanged();
+		notifyObservers();
 	}
 
 	public void remove(String key) {
@@ -39,6 +42,9 @@ public class Sheet implements Environment {
 			for (String k : set){
 				if (k!=key){
 					map.get(k).value(this);
+			for (String keyString : map.keySet()){
+				if (key != keyString){
+					map.get(keyString).value(this);
 				}
 			}
 		} catch (XLException e) {
@@ -46,6 +52,9 @@ public class Sheet implements Environment {
 			throw e;
 		}
 		map.remove(key);
+		
+		setChanged();
+		notifyObservers();
 	}
 
 	@Override
@@ -70,29 +79,26 @@ public class Sheet implements Environment {
 		reader.close();
 	}
 
-	public String toString(String adress) {
-		try {
-			if (map.get(adress) instanceof CommentSlot) {
-				return map.get(adress).toString().substring(1);
-			}
-			return String.valueOf(value(adress));
-//			return map.get(adress).toString();
-		} catch (NullPointerException e) {
-			return "";
+	public String toString(String address) {
+		if(map.containsKey(address)) {
+			if (map.get(address) instanceof CommentSlot)
+				return map.get(address).toString().substring(1);
+			return String.valueOf(value(address));
 		}
+		return "";
 	}
-
-	public String exprString(String adress) {
-		try {
-			return map.get(adress).diplayValue(this);
-		} catch (NullPointerException e) {
-			return "";
-		}// TODO Auto-generated method stub
-		
+	
+	public String exprString(String address) {
+		if(map.containsKey(address)) {
+			return map.get(address).diplayValue(this);
+		}
+		return "";
 	}
 
 	public void clear() {
 		map.clear();
 		
+		setChanged();
+		notifyObservers();
 	}
 }

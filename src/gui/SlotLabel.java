@@ -6,8 +6,12 @@ import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
+import util.XLException;
+
+import model.Sheet;
+
 @SuppressWarnings("serial")
-public class SlotLabel extends ColoredLabel implements MouseListener, Observer{
+public class SlotLabel extends ColoredLabel implements Observer {
 	private CurrentSlot currentSlot;
 	private String address;
 	
@@ -15,44 +19,24 @@ public class SlotLabel extends ColoredLabel implements MouseListener, Observer{
         super("                    ", Color.WHITE, RIGHT);
         this.currentSlot = currentSlot;
         this.address = address;
-        addMouseListener(this);
+        addMouseListener(new ClickListener());
     }
 
     public String getAddress() {
     	return address;
     }
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		currentSlot.updateCurrent(this);
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		if(currentSlot.getAdress().equals(address)) {
+    
+    @Override
+	public void update(Observable observable, Object arg) {
+		if(observable.getClass().equals(Sheet.class)) {
+			Sheet sheet = (Sheet) observable;
+			try {
+				setText(sheet.toString(address));
+			} catch(XLException e) {
+				
+			}
+		}
+		if(currentSlot.getAddress().equals(address)) {
 			setBackground(Color.YELLOW);
 		} else {
 			setBackground(Color.WHITE);
@@ -60,4 +44,24 @@ public class SlotLabel extends ColoredLabel implements MouseListener, Observer{
 		}
 			
 	}
+    
+    private class ClickListener implements MouseListener {
+
+		@Override
+		public void mouseClicked(MouseEvent event) {
+			currentSlot.updateCurrent(SlotLabel.this);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent event) {}
+
+		@Override
+		public void mouseExited(MouseEvent event) {}
+
+		@Override
+		public void mousePressed(MouseEvent event) {}
+
+		@Override
+		public void mouseReleased(MouseEvent event) {}	
+    }
 }

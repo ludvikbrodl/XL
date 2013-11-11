@@ -78,52 +78,34 @@ public class XL extends JFrame implements Printable {
 
 	public void loadFromFile(String path) throws IOException {
 		sheet.loadSheetFromFile(path);
-		updateGuiFromModelData();
 	}
 
 	public void clearSelectedSlot() {
 		try {
-			sheet.remove(currentSlot.getAdress());
+			sheet.remove(currentSlot.getAddress());
+			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
+				if(slotLabel.getAddress() == currentSlot.getAddress())
+					sheet.deleteObserver(slotLabel);
+			}
 		} catch (XLException e) {
-			statusLabel.setText(currentSlot.getAdress() + " referas till av en annan ruta! Ändra den först");
+			statusLabel.setText(currentSlot.getAddress() + " referas till av en annan ruta! Ändra den först");
 		}
-		
-		updateGuiFromModelData();
 	}
 
 	public void clearAllSlots() {
 		sheet.clear();
-		updateGuiFromModelData();
+		sheet.deleteObservers();
 	}
 
-	public void updateGuiFromModelData() {
-		for (SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-			try {
-				slotLabel.setText(getValueOfAdress(slotLabel.getAddress()));
-			} catch (XLException e) {
-			}
+	public void add(String address, String text) {
+		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
+			if(slotLabel.getAddress() == address)
+				sheet.addObserver(slotLabel);
 		}
-		currentSlot.notifyObservers();
+		sheet.add(address, text);
 	}
 
-	public void add(String adress, String text) {
-		sheet.add(adress, text);
-	}
-
-	public String getValueOfAdress(String adress) {
-		try {
-			return sheet.toString(adress);
-		} catch (XLException e) {
-			return "";
-		}
-
-	}
-
-	public String getStringOfAdress(String adress) {
-		try {
-			return sheet.exprString(adress);
-		} catch (XLException e) {
-			return "";
-		}
+	public String getStringOfAddress(String address) {
+			return sheet.exprString(address);
 	}
 }

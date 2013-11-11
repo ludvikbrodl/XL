@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import util.XLException;
 
 @SuppressWarnings("serial")
-public class Editor extends JTextField implements KeyListener, Observer {
+public class Editor extends JTextField implements Observer {
 	private XL xl;
 	private CurrentSlot currentSlot;
 	private StatusLabel statusLabel;
@@ -21,37 +21,32 @@ public class Editor extends JTextField implements KeyListener, Observer {
 		this.currentSlot = currentSlot;
 		this.statusLabel = statusLabel;
 		setBackground(Color.WHITE);
-		addKeyListener(this);
-	}
-
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-			try {
-				xl.add(currentSlot.getAdress(), getText());
-				xl.updateGuiFromModelData();
-			} catch (XLException e) {
-				statusLabel.updateStatus(e.getMessage());
-			}
-
-		}
-
-	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-
+		addKeyListener(new EnterListener());
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		setText(xl.getStringOfAdress(currentSlot.getAdress()));
+		setText(xl.getStringOfAddress(currentSlot.getAddress()));
 	}
+	
+	private class EnterListener implements KeyListener {
 
+		@Override
+		public void keyPressed(KeyEvent event) {
+			if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+				try {
+					xl.add(currentSlot.getAddress(), getText());
+				} catch (XLException e) {
+					statusLabel.updateStatus(e.getMessage());
+				}
+
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {}	
+	}
 }
