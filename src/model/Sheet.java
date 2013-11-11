@@ -38,10 +38,6 @@ public class Sheet extends Observable implements Environment {
 		Slot temp = map.get(key);
 		map.put(key, new BoomSlot());
 		try {
-			Set<String> set = map.keySet();
-			for (String k : set){
-				if (k!=key){
-					map.get(k).value(this);
 			for (String keyString : map.keySet()){
 				if (key != keyString){
 					map.get(keyString).value(this);
