@@ -38,7 +38,7 @@ public class Sheet implements Environment {
 			Set<String> set = map.keySet();
 			for (String k : set){
 				if (k!=key){
-					map.get(key).value(this);
+					map.get(k).value(this);
 				}
 			}
 		} catch (XLException e) {
