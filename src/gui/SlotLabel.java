@@ -31,7 +31,7 @@ public class SlotLabel extends ColoredLabel implements Observer {
 		if(observable.getClass().equals(Sheet.class)) {
 			Sheet sheet = (Sheet) observable;
 			try {
-				setText(sheet.toString(address));
+				setText(String.valueOf(sheet.value(address)));
 			} catch(XLException e) {
 				
 			}

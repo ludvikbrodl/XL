@@ -4,10 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Observable;
-import java.util.Set;
-
 import util.XLException;
 import expr.Environment;
 
@@ -26,7 +23,10 @@ public class Sheet extends Observable implements Environment {
 		try {
 			newSlot.value(this);
 		} catch (XLException e) {
-			map.put(key, temp);
+			if(temp != null)
+				map.put(key, temp);
+			else
+				map.remove(key);
 			throw e;
 		}
 		map.put(key, newSlot);
@@ -58,7 +58,7 @@ public class Sheet extends Observable implements Environment {
 		try {
 			return map.get(name).value(this);
 		} catch (NullPointerException e) {
-			throw new XLException("Uttrycket refererar på en tom ruta (" + name
+			throw new XLException("Uttrycket refererar till en tom ruta (" + name
 					+ ")");
 		}
 	}
@@ -79,14 +79,7 @@ public class Sheet extends Observable implements Environment {
 		if(map.containsKey(address)) {
 			if (map.get(address) instanceof CommentSlot)
 				return map.get(address).toString().substring(1);
-			return String.valueOf(value(address));
-		}
-		return "";
-	}
-	
-	public String exprString(String address) {
-		if(map.containsKey(address)) {
-			return map.get(address).diplayValue(this);
+			return map.get(address).toString();
 		}
 		return "";
 	}

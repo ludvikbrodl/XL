@@ -106,6 +106,6 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public String getStringOfAddress(String address) {
-			return sheet.exprString(address);
+			return sheet.toString(address);
 	}
 }
