@@ -82,14 +82,17 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public void clearSelectedSlot() {
-		sheet.remove(currentSlot.getAdress());
+		try {
+			sheet.remove(currentSlot.getAdress());
+		} catch (XLException e) {
+			statusLabel.setText(currentSlot.getAdress() + " referas till av en annan ruta! Ändra den först");
+		}
+		
 		updateGuiFromModelData();
 	}
 
 	public void clearAllSlots() {
-		for (SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-			sheet.remove(slotLabel.getAddress());
-		}
+		sheet.clear();
 		updateGuiFromModelData();
 	}
 

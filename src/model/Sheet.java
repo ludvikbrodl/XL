@@ -4,6 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import util.XLException;
 import expr.Environment;
@@ -30,6 +32,19 @@ public class Sheet implements Environment {
 	}
 
 	public void remove(String key) {
+		Slot temp = map.get(key);
+		map.put(key, new BoomSlot());
+		try {
+			Set<String> set = map.keySet();
+			for (String k : set){
+				if (k!=key){
+					map.get(key).value(this);
+				}
+			}
+		} catch (XLException e) {
+			map.put(key, temp);
+			throw e;
+		}
 		map.remove(key);
 	}
 
@@ -73,6 +88,11 @@ public class Sheet implements Environment {
 		} catch (NullPointerException e) {
 			return "";
 		}// TODO Auto-generated method stub
+		
+	}
+
+	public void clear() {
+		map.clear();
 		
 	}
 }
