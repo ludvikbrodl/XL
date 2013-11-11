@@ -84,8 +84,6 @@ public class Sheet extends Observable implements Environment {
 
 	public String toString(String address) {
 		if(map.containsKey(address)) {
-			if (isComment(address))
-				return map.get(address).toString().substring(1);
 			return map.get(address).toString();
 		}
 		return "";
