@@ -61,8 +61,18 @@ public class Sheet implements Environment {
 				return map.get(adress).toString().substring(1);
 			}
 			return String.valueOf(value(adress));
+//			return map.get(adress).toString();
 		} catch (NullPointerException e) {
 			return "";
 		}
+	}
+
+	public String exprString(String adress) {
+		try {
+			return map.get(adress).diplayValue(this);
+		} catch (NullPointerException e) {
+			return "";
+		}// TODO Auto-generated method stub
+		
 	}
 }
