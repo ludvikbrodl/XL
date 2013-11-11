@@ -57,7 +57,10 @@ public class Sheet implements Environment {
 
 	public String toString(String adress) {
 		try {
-			return map.get(adress).toString();
+			if (map.get(adress) instanceof CommentSlot) {
+				return map.get(adress).toString().substring(1);
+			}
+			return String.valueOf(value(adress));
 		} catch (NullPointerException e) {
 			return "";
 		}

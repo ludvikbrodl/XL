@@ -108,11 +108,12 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public String getValueOfAdress(String adress) {
-		try {
-			return String.valueOf(sheet.value(adress));
-		} catch (XLException e) {
-			return "";
-		}
+//		try {
+			return sheet.toString(adress);
+//		} catch (XLException e) 
+//		{
+//			return "";
+//		}
 
 	}
 
