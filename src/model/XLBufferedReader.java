@@ -17,10 +17,11 @@ public class XLBufferedReader extends BufferedReader {
     public void load(Map<String, Slot> map) {
         try {
         	SlotFactory sf = new SlotFactory();
+        	map.clear();
             while (ready()) {
                 String string = readLine();
                 int i = string.indexOf('=');
-                map.put(string.substring(0,i-1), (sf.createSlot(string.substring(i+1))));
+                map.put(string.substring(0,i), (sf.createSlot(string.substring(i+1))));
             }
         } catch (Exception e) {
             throw new XLException(e.getMessage());
