@@ -1,7 +1,6 @@
 package model;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -30,10 +29,11 @@ public class Sheet extends Observable implements Environment {
 			throw e;
 		}
 		map.put(key, newSlot);
+		
 		setChanged();
 		notifyObservers();
 	}
-
+	
 	public void remove(String key) {
 		Slot temp = map.get(key);
 		map.put(key, new BoomSlot());
@@ -67,13 +67,6 @@ public class Sheet extends Observable implements Environment {
 		XLPrintStream stream = new XLPrintStream(fileName);
 		stream.save(map.entrySet());
 		stream.close();
-	}
-
-	public void loadSheetFromFile(String fileName) throws IOException {
-		XLBufferedReader reader = new XLBufferedReader(fileName);
-		reader.load(map);
-		reader.close();
-		
 	}
 	
 	public boolean isComment(String address) {

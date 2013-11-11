@@ -11,12 +11,15 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import util.XLException;
 import model.Sheet;
+import model.Slot;
+import model.XLBufferedReader;
 
 @SuppressWarnings("serial")
 public class XL extends JFrame implements Printable {
@@ -77,7 +80,19 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public void loadFromFile(String path) throws IOException {
-		sheet.loadSheetFromFile(path);
+		XLBufferedReader reader = new XLBufferedReader(path);
+		HashMap<String, Slot> tempMap = new HashMap<>();
+		reader.load(tempMap);
+		reader.close();
+		try {
+			for(String key: tempMap.keySet())
+				add(key, tempMap.get(key).toString());
+			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList())
+				slotLabel.update(sheet, null);
+		} catch (XLException exception) {
+			clearAllSlots();
+			statusLabel.setText("Filen innehåller fel");
+		}
 	}
 
 	public void clearSelectedSlot() {
@@ -98,14 +113,18 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public void add(String address, String text) {
-		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-			if(slotLabel.getAddress() == address)
-				sheet.addObserver(slotLabel);
+		try {
+			sheet.add(address, text);
+			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
+				if(slotLabel.getAddress() == address)
+					sheet.addObserver(slotLabel);
+			}
+		} catch (XLException e) {
+			statusLabel.updateStatus(e.getMessage());
 		}
-		sheet.add(address, text);
 	}
 
 	public String getStringOfAddress(String address) {
-			return sheet.toString(address);
+		return sheet.toString(address);
 	}
 }

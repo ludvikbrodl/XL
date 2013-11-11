@@ -8,18 +8,14 @@ import java.util.Observer;
 
 import javax.swing.JTextField;
 
-import util.XLException;
-
 @SuppressWarnings("serial")
 public class Editor extends JTextField implements Observer {
 	private XL xl;
 	private CurrentSlot currentSlot;
-	private StatusLabel statusLabel;
 
 	public Editor(XL xl, CurrentSlot currentSlot, StatusLabel statusLabel) {
 		this.xl = xl;
 		this.currentSlot = currentSlot;
-		this.statusLabel = statusLabel;
 		setBackground(Color.WHITE);
 		addKeyListener(new EnterListener());
 	}
@@ -34,12 +30,7 @@ public class Editor extends JTextField implements Observer {
 		@Override
 		public void keyPressed(KeyEvent event) {
 			if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-				try {
-					xl.add(currentSlot.getAddress(), getText());
-				} catch (XLException e) {
-					statusLabel.updateStatus(e.getMessage());
-				}
-
+				xl.add(currentSlot.getAddress(), getText());
 			}
 		}
 

@@ -22,7 +22,6 @@ class LoadMenuItem extends OpenMenuItem {
 			e.printStackTrace();
 		}
         statusLabel.setText("Sheet loaded from: " + path);
-        //TODO UPDATERA HELA GUI:t till de nya värdena
     }
 
     protected int openDialog(JFileChooser fileChooser) {
