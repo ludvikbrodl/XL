@@ -81,30 +81,14 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public void loadFromFile(String path) throws IOException {
-		XLBufferedReader reader = new XLBufferedReader(path);
-		HashMap<String, Slot> tempMap = new HashMap<>();
-		reader.load(tempMap);
-		reader.close();
-		try {
-			for(String key: tempMap.keySet())
-				add(key, tempMap.get(key).toString());
-		} catch (XLException exception) {
-			clearAllSlots();
-			JOptionPane.showMessageDialog(null, "Filen innehåller fel, avbröt innladdning", "Fel", JOptionPane.ERROR_MESSAGE);
-		}
-		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList())
-			slotLabel.update(sheet, null);
+		sheet.loadSheetFromFile(path);
+		updateGui();
 	}
 
 	public void clearSelectedSlot() {
 		try {
 			sheet.remove(currentSlot.getAddress());
-			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-				if(slotLabel.getAddress() == currentSlot.getAddress()) {
-					sheet.deleteObserver(slotLabel);
-				}
-					
-			}
+			updateGui();
 		} catch (XLException e) {
 			statusLabel.setText(currentSlot.getAddress() + " referas till av en annan ruta! Ã„ndra den fÃ¶rst");
 		}
@@ -112,16 +96,28 @@ public class XL extends JFrame implements Printable {
 
 	public void clearAllSlots() {
 		sheet.clear();
-		sheet.deleteObservers();
+		updateGui();
 	}
 
+	public void updateGui() {
+		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
+			String address = slotLabel.getAddress();
+			if(sheet.isComment(address))
+				slotLabel.setText(sheet.toString(address).substring(1));
+			else {
+				try {
+					slotLabel.setText(String.valueOf(sheet.value(address)));
+				} catch (XLException e) {
+					slotLabel.setText("");
+				}
+			}
+		}
+	}
+	
 	public void add(String address, String text) {
 		try {
 			sheet.add(address, text);
-			for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-				if(slotLabel.getAddress() == address)
-					sheet.addObserver(slotLabel);
-			}
+			updateGui();
 		} catch (XLException e) {
 			statusLabel.updateStatus(e.getMessage());
 		}

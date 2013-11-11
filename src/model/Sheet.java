@@ -1,13 +1,17 @@
 package model;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
+
+import javax.swing.JOptionPane;
+
 import util.XLException;
 import expr.Environment;
 
-public class Sheet extends Observable implements Environment {
+public class Sheet implements Environment {
 	private Map<String, Slot> map;
 	private static SlotFactory slotFactory = new SlotFactory();
 
@@ -29,9 +33,6 @@ public class Sheet extends Observable implements Environment {
 			throw e;
 		}
 		map.put(key, newSlot);
-		
-		setChanged();
-		notifyObservers();
 	}
 	
 	public void remove(String key) {
@@ -48,9 +49,6 @@ public class Sheet extends Observable implements Environment {
 			throw e;
 		}
 		map.remove(key);
-		
-		setChanged();
-		notifyObservers();
 	}
 
 	@Override
@@ -69,6 +67,19 @@ public class Sheet extends Observable implements Environment {
 		stream.close();
 	}
 	
+	public void loadSheetFromFile(String fileName) throws IOException {
+		XLBufferedReader reader = new XLBufferedReader(fileName);
+		HashMap<String, Slot> tempMap = new HashMap<>();
+		reader.load(tempMap);
+		reader.close();
+		try {
+			for(String key: tempMap.keySet())
+				add(key, tempMap.get(key).toString());
+		} catch (XLException exception) {
+			throw new XLException("Fel i filen");
+		}
+	}
+	
 	public boolean isComment(String address) {
 		if (map.get(address) instanceof CommentSlot)
 			return true;
@@ -84,8 +95,5 @@ public class Sheet extends Observable implements Environment {
 
 	public void clear() {
 		map.clear();
-		
-		setChanged();
-		notifyObservers();
 	}
 }

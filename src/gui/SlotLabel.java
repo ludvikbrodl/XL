@@ -28,18 +28,6 @@ public class SlotLabel extends ColoredLabel implements Observer {
 
 	@Override
 	public void update(Observable observable, Object arg) {
-		if(observable.getClass().equals(Sheet.class)) {
-			Sheet sheet = (Sheet) observable;
-			if(sheet.isComment(address))
-				setText(sheet.toString(address).substring(1));
-			else {
-				try {
-					setText(String.valueOf(sheet.value(address)));
-				} catch (XLException e) {
-					setText("");
-				}
-			}
-		}
 		if(currentSlot.getAddress().equals(address)) {
 			setBackground(Color.YELLOW);
 		} else {
