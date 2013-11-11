@@ -14,11 +14,6 @@ public class CommentSlot implements Slot {
 		return 0;
 	}
 	
-	@Override
-	public String diplayValue(Environment env) {
-		return comment;
-	}
-	
 	public String toString() {
 		return comment;
 	}

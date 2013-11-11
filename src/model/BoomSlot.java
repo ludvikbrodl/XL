@@ -10,9 +10,4 @@ public class BoomSlot implements Slot {
 		throw new XLException("Kaboom! Cirkulärt beroende!");
 	}
 
-	@Override
-	public String diplayValue(Environment env) {
-		return "";
-	}
-
 }

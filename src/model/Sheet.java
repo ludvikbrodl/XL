@@ -73,11 +73,18 @@ public class Sheet extends Observable implements Environment {
 		XLBufferedReader reader = new XLBufferedReader(fileName);
 		reader.load(map);
 		reader.close();
+		
+	}
+	
+	public boolean isComment(String address) {
+		if (map.get(address) instanceof CommentSlot)
+			return true;
+		return false;
 	}
 
 	public String toString(String address) {
 		if(map.containsKey(address)) {
-			if (map.get(address) instanceof CommentSlot)
+			if (isComment(address))
 				return map.get(address).toString().substring(1);
 			return map.get(address).toString();
 		}

@@ -14,10 +14,6 @@ public class ExprSlot implements Slot {
 	public double value(Environment env) {
 		return expr.value(env);
 	}
-	@Override
-	public String diplayValue(Environment env) {
-		return expr.toString();
-	}
 	
 	public String toString() {
 		return expr.toString();
