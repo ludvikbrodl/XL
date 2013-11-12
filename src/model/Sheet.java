@@ -4,9 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
-
-import javax.swing.JOptionPane;
+import java.util.TreeMap;
 
 import util.XLException;
 import expr.Environment;
@@ -68,14 +66,16 @@ public class Sheet implements Environment {
 	}
 	
 	public void loadSheetFromFile(String fileName) throws IOException {
+		map.clear();
 		XLBufferedReader reader = new XLBufferedReader(fileName);
-		HashMap<String, Slot> tempMap = new HashMap<>();
+		TreeMap<String, Slot> tempMap = new TreeMap<>(new StringSlotCompare());
 		reader.load(tempMap);
 		reader.close();
 		try {
 			for(String key: tempMap.keySet())
 				add(key, tempMap.get(key).toString());
 		} catch (XLException exception) {
+			map.clear();
 			throw new XLException("Fel i filen");
 		}
 	}

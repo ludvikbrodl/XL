@@ -21,7 +21,7 @@ class LoadMenuItem extends OpenMenuItem {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        statusLabel.setText("Sheet loaded from: " + path);
+//        statusLabel.setText("Sheet loaded from: " + path);
     }
 
     protected int openDialog(JFileChooser fileChooser) {

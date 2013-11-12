@@ -13,7 +13,7 @@ public class Editor extends JTextField implements Observer {
 	private XL xl;
 	private CurrentSlot currentSlot;
 
-	public Editor(XL xl, CurrentSlot currentSlot, StatusLabel statusLabel) {
+	public Editor(XL xl, CurrentSlot currentSlot) {
 		this.xl = xl;
 		this.currentSlot = currentSlot;
 		setBackground(Color.WHITE);

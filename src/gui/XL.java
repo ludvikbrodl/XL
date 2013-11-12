@@ -11,16 +11,11 @@ import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
-
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import util.XLException;
 import model.Sheet;
-import model.Slot;
-import model.XLBufferedReader;
 
 @SuppressWarnings("serial")
 public class XL extends JFrame implements Printable {
@@ -46,8 +41,9 @@ public class XL extends JFrame implements Printable {
 		currentSlot = new CurrentSlot();
 		JPanel statusPanel = new StatusPanel(statusLabel, currentSlot);
 		sheetPanel = new SheetPanel(ROWS, COLUMNS, currentSlot);
-		Editor editor = new Editor(this, currentSlot, statusLabel);
+		Editor editor = new Editor(this, currentSlot);
 		currentSlot.addObserver(editor);
+		currentSlot.addObserver(statusLabel);
 		add(NORTH, statusPanel);
 		add(CENTER, editor);
 		add(SOUTH, sheetPanel);
@@ -81,7 +77,12 @@ public class XL extends JFrame implements Printable {
 	}
 
 	public void loadFromFile(String path) throws IOException {
-		sheet.loadSheetFromFile(path);
+		try {
+			sheet.loadSheetFromFile(path);
+		} catch(XLException e) {
+			statusLabel.setText(e.getMessage());
+		}
+		
 		updateGui();
 	}
 
