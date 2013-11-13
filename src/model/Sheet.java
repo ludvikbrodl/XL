@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-import java.util.TreeMap;
-
 import util.XLException;
 import expr.Environment;
 

@@ -22,6 +22,7 @@ class LoadMenuItem extends OpenMenuItem {
     }
 
     protected void action(String path) throws FileNotFoundException {
+    	statusLabel.setText("File successfully loaded from: " + path);
     	try {
 			sheet.loadSheetFromFile(path);
 		} catch (IOException e) {

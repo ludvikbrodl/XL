@@ -7,7 +7,7 @@ public class BoomSlot implements Slot {
 
 	@Override
 	public double value(Environment env) throws XLException {
-		throw new XLException("Kaboom! Cirkulärt beroende!");
+		throw new XLException("Kaboom! Cirkulart beroende!");
 	}
 
 }
