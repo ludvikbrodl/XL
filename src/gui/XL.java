@@ -9,12 +9,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import util.XLException;
 import model.Sheet;
 
 @SuppressWarnings("serial")
@@ -40,14 +37,14 @@ public class XL extends JFrame implements Printable {
 		counter.increment();
 		currentSlot = new CurrentSlot();
 		JPanel statusPanel = new StatusPanel(statusLabel, currentSlot);
-		sheetPanel = new SheetPanel(ROWS, COLUMNS, currentSlot);
-		Editor editor = new Editor(this, currentSlot);
+		sheetPanel = new SheetPanel(ROWS, COLUMNS, currentSlot, sheet);
+		Editor editor = new Editor(sheet, currentSlot, statusLabel);
 		currentSlot.addObserver(editor);
 		currentSlot.addObserver(statusLabel);
 		add(NORTH, statusPanel);
 		add(CENTER, editor);
 		add(SOUTH, sheetPanel);
-		setJMenuBar(new XLMenuBar(this, xlList, statusLabel));
+		setJMenuBar(new XLMenuBar(this, xlList, statusLabel, currentSlot, sheet));
 		pack();
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
@@ -70,61 +67,5 @@ public class XL extends JFrame implements Printable {
 
 	public static void main(String[] args) {
 		new XL(new XLList(), new XLCounter());
-	}
-
-	public void saveToFile(String path) throws FileNotFoundException {
-		sheet.saveSheetToFile(path);
-	}
-
-	public void loadFromFile(String path) throws IOException {
-		try {
-			sheet.loadSheetFromFile(path);
-		} catch(XLException e) {
-			statusLabel.setText(e.getMessage());
-		}
-		
-		updateGui();
-	}
-
-	public void clearSelectedSlot() {
-		try {
-			sheet.remove(currentSlot.getAddress());
-			updateGui();
-		} catch (XLException e) {
-			statusLabel.setText(currentSlot.getAddress() + " referas till av en annan ruta! Ändra den först");
-		}
-	}
-
-	public void clearAllSlots() {
-		sheet.clear();
-		updateGui();
-	}
-
-	public void updateGui() {
-		for(SlotLabel slotLabel : sheetPanel.getSlots().getLabeList()) {
-			String address = slotLabel.getAddress();
-			if(sheet.isComment(address))
-				slotLabel.setText(sheet.toString(address).substring(1));
-			else {
-				try {
-					slotLabel.setText(String.valueOf(sheet.value(address)));
-				} catch (XLException e) {
-					slotLabel.setText("");
-				}
-			}
-		}
-	}
-	
-	public void add(String address, String text) {
-		try {
-			sheet.add(address, text);
-			updateGui();
-		} catch (XLException e) {
-			statusLabel.updateStatus(e.getMessage());
-		}
-	}
-
-	public String getStringOfAddress(String address) {
-		return sheet.toString(address);
 	}
 }

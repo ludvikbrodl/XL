@@ -6,10 +6,6 @@ import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
-import util.XLException;
-
-import model.Sheet;
-
 @SuppressWarnings("serial")
 public class SlotLabel extends ColoredLabel implements Observer {
 	private CurrentSlot currentSlot;
@@ -41,7 +37,8 @@ public class SlotLabel extends ColoredLabel implements Observer {
 
 		@Override
 		public void mouseClicked(MouseEvent event) {
-			currentSlot.updateCurrent(SlotLabel.this);
+			currentSlot.addObserver(SlotLabel.this);
+			currentSlot.updateCurrent(address);
 		}
 
 		@Override

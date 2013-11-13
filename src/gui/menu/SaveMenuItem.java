@@ -7,14 +7,19 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 
+import model.Sheet;
+
 @SuppressWarnings("serial")
 class SaveMenuItem extends OpenMenuItem {
-    public SaveMenuItem(XL xl, StatusLabel statusLabel) {
+    private Sheet sheet;
+
+	public SaveMenuItem(XL xl, StatusLabel statusLabel, Sheet sheet) {
         super(xl, statusLabel, "Save");
+        this.sheet = sheet;
     }
 
     protected void action(String path) throws FileNotFoundException {
-        xl.saveToFile(path);
+        sheet.saveSheetToFile(path);
         statusLabel.setText("Sheet saved to: " + path);
     }
 

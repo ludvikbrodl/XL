@@ -2,18 +2,13 @@ package gui;
 
 import static java.awt.BorderLayout.CENTER;
 import static java.awt.BorderLayout.WEST;
+import model.Sheet;
 
 @SuppressWarnings("serial")
 public class SheetPanel extends BorderPanel {
-	private SlotLabels slotLabels;
 	
-    public SheetPanel(int rows, int columns, CurrentSlot currentSlot) {
+    public SheetPanel(int rows, int columns, CurrentSlot currentSlot, Sheet sheet) {
         add(WEST, new RowLabels(rows));
-        add(CENTER, slotLabels = new SlotLabels(rows, columns, currentSlot));
+        add(CENTER, new SlotLabels(rows, columns, currentSlot, sheet));
     }
-
-	public SlotLabels getSlots() {
-		return slotLabels;
-		
-	}
 }

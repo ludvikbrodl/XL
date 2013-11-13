@@ -9,9 +9,8 @@ public class CurrentSlot extends Observable {
 		
 	}
 	
-	public void updateCurrent(SlotLabel newSlot) {
-		address = newSlot.getAddress();
-		addObserver(newSlot);
+	public void updateCurrent(String address) {
+		this.address = address;
 		setChanged();
 		notifyObservers();
 	}

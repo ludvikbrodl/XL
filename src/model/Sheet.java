@@ -4,12 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Observable;
 import java.util.TreeMap;
 
 import util.XLException;
 import expr.Environment;
 
-public class Sheet implements Environment {
+public class Sheet extends Observable implements Environment {
 	private Map<String, Slot> map;
 	private static SlotFactory slotFactory = new SlotFactory();
 
@@ -24,21 +25,23 @@ public class Sheet implements Environment {
 		try {
 			newSlot.value(this);
 		} catch (XLException e) {
-			if(temp != null)
+			if (temp != null)
 				map.put(key, temp);
 			else
 				map.remove(key);
 			throw e;
 		}
 		map.put(key, newSlot);
+		setChanged();
+		notifyObservers();
 	}
-	
+
 	public void remove(String key) {
 		Slot temp = map.get(key);
 		map.put(key, new BoomSlot());
 		try {
-			for (String keyString : map.keySet()){
-				if (keyString != key){
+			for (String keyString : map.keySet()) {
+				if (keyString != key) {
 					map.get(keyString).value(this);
 				}
 			}
@@ -47,6 +50,8 @@ public class Sheet implements Environment {
 			throw e;
 		}
 		map.remove(key);
+		setChanged();
+		notifyObservers();
 	}
 
 	@Override
@@ -54,8 +59,8 @@ public class Sheet implements Environment {
 		try {
 			return map.get(name).value(this);
 		} catch (NullPointerException e) {
-			throw new XLException("Uttrycket refererar till en tom ruta (" + name
-					+ ")");
+			throw new XLException("Uttrycket refererar till en tom ruta ("
+					+ name + ")");
 		}
 	}
 
@@ -64,22 +69,42 @@ public class Sheet implements Environment {
 		stream.save(map.entrySet());
 		stream.close();
 	}
-	
+
 	public void loadSheetFromFile(String fileName) throws IOException {
-		map.clear();
+		clear();
 		XLBufferedReader reader = new XLBufferedReader(fileName);
-		TreeMap<String, Slot> tempMap = new TreeMap<>(new StringSlotCompare());
-		reader.load(tempMap);
+		reader.load(map);
 		reader.close();
-		try {
-			for(String key: tempMap.keySet())
-				add(key, tempMap.get(key).toString());
-		} catch (XLException exception) {
-			map.clear();
-			throw new XLException("Fel i filen");
+		setChanged();
+		notifyObservers();
+		for (String key : map.keySet()) {
+			Slot temp = map.get(key);
+			map.put(key, new BoomSlot());
+			try {
+				map.get(key).value(this);
+			} catch (XLException e) {
+				clear();
+				throw e;
+			}
+			map.put(key, temp);
 		}
+//		
+//		Slot temp = map.get(key);
+//		Slot newSlot = slotFactory.createSlot(text);
+//		map.put(key, new BoomSlot());
+//		try {
+//			newSlot.value(this);
+//		} catch (XLException e) {
+//			if (temp != null)
+//				map.put(key, temp);
+//			else
+//				map.remove(key);
+//			throw e;
+//		}
+//		map.put(key, newSlot);
+
 	}
-	
+
 	public boolean isComment(String address) {
 		if (map.get(address) instanceof CommentSlot)
 			return true;
@@ -87,7 +112,7 @@ public class Sheet implements Environment {
 	}
 
 	public String toString(String address) {
-		if(map.containsKey(address)) {
+		if (map.containsKey(address)) {
 			return map.get(address).toString();
 		}
 		return "";
@@ -95,5 +120,7 @@ public class Sheet implements Environment {
 
 	public void clear() {
 		map.clear();
+		setChanged();
+		notifyObservers();
 	}
 }

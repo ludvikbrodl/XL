@@ -1,23 +1,23 @@
 package gui.menu;
 
-import gui.XL;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
+import model.Sheet;
+
 @SuppressWarnings("serial")
 class ClearAllMenuItem extends JMenuItem implements ActionListener {
-    private XL xl;
+	private Sheet sheet;
 
-	public ClearAllMenuItem(XL xl) {
+	public ClearAllMenuItem(Sheet sheet) {
         super("Clear all");
-        this.xl = xl;
+        this.sheet = sheet;
         addActionListener(this);
     }
 
     public void actionPerformed(ActionEvent e) {
-        xl.clearAllSlots();
+        sheet.clear();
     }
 }
