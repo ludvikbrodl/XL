@@ -75,33 +75,20 @@ public class Sheet extends Observable implements Environment {
 		XLBufferedReader reader = new XLBufferedReader(fileName);
 		reader.load(map);
 		reader.close();
-		setChanged();
-		notifyObservers();
+		
 		for (String key : map.keySet()) {
 			Slot temp = map.get(key);
 			map.put(key, new BoomSlot());
 			try {
-				map.get(key).value(this);
+				temp.value(this);
 			} catch (XLException e) {
 				clear();
 				throw e;
 			}
 			map.put(key, temp);
 		}
-//		
-//		Slot temp = map.get(key);
-//		Slot newSlot = slotFactory.createSlot(text);
-//		map.put(key, new BoomSlot());
-//		try {
-//			newSlot.value(this);
-//		} catch (XLException e) {
-//			if (temp != null)
-//				map.put(key, temp);
-//			else
-//				map.remove(key);
-//			throw e;
-//		}
-//		map.put(key, newSlot);
+		setChanged();
+		notifyObservers();
 
 	}
 
